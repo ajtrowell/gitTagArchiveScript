@@ -4,13 +4,15 @@
 # Does not overwrite existing folders.
 # To make executable, run: chmod 755 archive.sh
 
-REPO_DIR=exampleRepo
+REPO_DIR=~/workspace/exampleRepo/
+BACKUP_DIR=~/workspace/tagArchive/
 
 echo;
 echo Git Archive Script
 echo;
 
 # Find local directories, and store in DIRS array.
+cd $BACKUP_DIR
 echo Show Folders:
 echo;
 DIRS=(*/) # Store all directories into DIRS array.
@@ -48,7 +50,7 @@ done
 echo
 echo Capture and show NEW_DIRS
 echo
-cd ..
+cd $BACKUP_DIR
 i=0;
 for tag in "${TAGS[@]}"
 do
@@ -75,13 +77,17 @@ echo;
 
 
 # Create New Directories:
+cd $BACKUP_DIR
 for dir in ${NEW_DIRS[@]}
 do
     echo "Creating Directory $dir"
     mkdir $dir
     cd $REPO_DIR
     git checkout $dir
-    cd ..
+    cd $BACKUP_DIR
+    cp $REPO_DIR* $BACKUP_DIR$dir
+
+    #cd $BACKUP_DIR
 done
 
 
